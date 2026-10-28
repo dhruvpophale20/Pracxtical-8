@@ -1,0 +1,34 @@
+@model Demo1.Models.Product
+@{
+    Layout = null;
+    ViewBag.Title = "Delete product";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - Inventory Management</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/site.css")" />
+</head>
+<body>
+    <main class="page-shell form-shell">
+        <p class="eyebrow">INVENTORY CONTROL</p>
+        <h1>Delete product</h1>
+        <section class="card form-card">
+            <p>Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+            <dl class="details-list">
+                <dt>Quantity in stock</dt><dd>@Model.Quantity</dd>
+                <dt>Unit price</dt><dd>@Model.Price.ToString("C")</dd>
+            </dl>
+            @using (Html.BeginForm("Delete", "Product", new { id = Model.Id }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-actions">
+                    <button type="submit" class="button button-danger">Delete product</button>
+                    @Html.ActionLink("Cancel", "Index", null, new { @class = "button button-secondary" })
+                </div>
+            }
+        </section>
+    </main>
+</body>
+</html>

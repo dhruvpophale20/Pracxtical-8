@@ -1,0 +1,71 @@
+﻿
+@model IEnumerable<Demo1.Models.Product>
+@{
+    Layout = null;
+    ViewBag.Title = "Inventory";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - Inventory Management</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/site.css")" />
+</head>
+<body>
+    <main class="page-shell">
+        <header class="page-header">
+            <div>
+                <p class="eyebrow">INVENTORY CONTROL</p>
+                <h1>Products</h1>
+                <p class="muted">View and manage the items in your stock.</p>
+            </div>
+            @Html.ActionLink("＋ Add product", "Create", null, new { @class = "button button-primary" })
+        </header>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert-success" role="status">@TempData["SuccessMessage"]</div>
+        }
+
+        <section class="card">
+            <div class="table-heading">
+                <h2>Product list</h2>
+                <span class="muted">@Model.Count() @(Model.Count() == 1 ? "item" : "items")</span>
+            </div>
+            @if (!Model.Any())
+            {
+                <div class="empty-state">
+                    <h3>No products yet</h3>
+                    <p>Add your first product to start tracking inventory.</p>
+                    @Html.ActionLink("Add a product", "Create", null, new { @class = "button button-primary" })
+                </div>
+            }
+            else
+            {
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Product</th><th>Quantity</th><th>Unit price</th><th class="actions-heading">Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model)
+                            {
+                                <tr>
+                                    <td class="product-name">@product.Name</td>
+                                    <td><span class="stock-badge @(product.Quantity == 0 ? "stock-empty" : "")">@product.Quantity</span></td>
+                                    <td>@product.Price.ToString("C")</td>
+                                    <td class="actions">
+                                        @Html.ActionLink("Edit", "Edit", new { id = product.Id }, new { @class = "text-link" })
+                                        @Html.ActionLink("Delete", "Delete", new { id = product.Id }, new { @class = "text-link text-danger" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
+        <footer>Inventory Management · ADO.NET CRUD</footer>
+    </main>
+</body>
+</html>

@@ -1,0 +1,46 @@
+@model Demo1.Models.Product
+@{
+    Layout = null;
+    ViewBag.Title = "Add product";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - Inventory Management</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/site.css")" />
+</head>
+<body>
+    <main class="page-shell form-shell">
+        <p class="eyebrow">INVENTORY CONTROL</p>
+        <h1>Add a product</h1>
+        <p class="muted">Enter the product details below.</p>
+        <section class="card form-card">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "Please correct the errors and try again.", new { @class = "validation-summary" })
+                <div class="field">
+                    @Html.LabelFor(m => m.Name)
+                    @Html.TextBoxFor(m => m.Name, new { @class = "input", maxlength = "100", autocomplete = "off", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "field-error" })
+                </div>
+                <div class="field">
+                    @Html.LabelFor(m => m.Quantity)
+                    @Html.TextBoxFor(m => m.Quantity, new { @class = "input", type = "number", min = "0", step = "1" })
+                    @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "field-error" })
+                </div>
+                <div class="field">
+                    @Html.LabelFor(m => m.Price)
+                    @Html.TextBoxFor(m => m.Price, new { @class = "input", type = "number", min = "0", step = "1" })
+                    @Html.ValidationMessageFor(m => m.Price, "", new { @class = "field-error" })
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="button button-primary">Save product</button>
+                    @Html.ActionLink("Cancel", "Index", null, new { @class = "button button-secondary" })
+                </div>
+            }
+        </section>
+    </main>
+</body>
+</html>
